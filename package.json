@@ -1,0 +1,51 @@
+{
+  "name": "mixes",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "vite dev",
+    "build": "vite build",
+    "preview": "vite preview",
+    "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+    "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+    "lint": "prettier --plugin-search-dir . --check . && eslint .",
+    "format": "prettier --plugin-search-dir . --write .",
+    "fmt": "pnpm format",
+    "update-types": "pnpx supabase gen types typescript --linked --schema public > src/lib/supabase/types.ts"
+  },
+  "devDependencies": {
+    "@iconify/json": "2.2.56",
+    "@prgm/sveltekit-progress-bar": "1.0.0",
+    "@supabase/supabase-js": "2.21.0",
+    "@sveltejs/adapter-auto": "2.0.1",
+    "@sveltejs/kit": "1.15.9",
+    "@typescript-eslint/eslint-plugin": "5.59.1",
+    "@typescript-eslint/parser": "5.59.1",
+    "autoprefixer": "10.4.14",
+    "eslint": "8.39.0",
+    "eslint-config-prettier": "8.8.0",
+    "eslint-plugin-svelte3": "4.0.0",
+    "postcss": "8.4.23",
+    "postcss-load-config": "4.0.1",
+    "prettier": "2.8.8",
+    "prettier-plugin-svelte": "2.10.0",
+    "prettier-plugin-tailwindcss": "0.2.7",
+    "supabase": "1.51.0",
+    "svelte": "3.58.0",
+    "svelte-check": "3.2.0",
+    "svelte-preprocess": "5.0.3",
+    "tailwindcss": "3.3.2",
+    "tslib": "2.5.0",
+    "typescript": "5.0.4",
+    "unplugin-icons": "0.16.1",
+    "vite": "4.3.3"
+  },
+  "type": "module",
+  "dependencies": {
+    "@vime/core": "5.4.0",
+    "@vime/svelte": "5.4.0",
+    "date-fns": "2.29.3",
+    "luxon": "3.3.0",
+    "svelte-aplayer": "0.1.2"
+  }
+}
