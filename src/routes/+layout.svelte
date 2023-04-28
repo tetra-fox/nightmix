@@ -12,7 +12,7 @@
 <Header />
 
 <main
-  class="inset-2 mx-auto max-w-screen-xl bg-zinc-100 pb-16 pt-4 text-zinc-900 dark:bg-zinc-900 dark:text-zinc-100">
+  class="inset-2 mx-auto max-w-screen-xl bg-zinc-100 pb-20 pt-6 text-zinc-900 dark:bg-zinc-900 dark:text-zinc-100">
   <slot />
   <GlobalPlayer playerStore={playerState} />
 </main>

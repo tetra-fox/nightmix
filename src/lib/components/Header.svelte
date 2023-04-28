@@ -2,7 +2,7 @@
   <div class="mx-auto flex max-w-screen-xl items-center justify-between">
     <a class="text-lg font-bold" href="/">yeaman</a>
     <nav class="flex">
-      <a class="px-3 py-2 hover:text-gray-200" href="#">Login</a>
+      <a class="hover:text-gray-200" href="#">Login</a>
     </nav>
   </div>
 </header>

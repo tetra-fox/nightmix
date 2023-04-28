@@ -8,7 +8,7 @@
 
   export let metadata: Database["public"]["Tables"]["mixes"]["Row"];
 
-  let paused = true;
+  let marqueePaused = true;
   let titleEl: HTMLElement;
   let shouldMarquee = false;
 
@@ -17,13 +17,14 @@
 
   const handlePlayPause = (): void => {
     if ($playerState.currentTrack && $playerState.currentTrack.id === metadata.id) {
-      if (paused) {
+      if (!$playerState.isPlaying) {
         playerState.play();
+        console.log("play called, same track")
       } else {
         playerState.pause();
+        console.log("pause called, same track")
       }
     } else {
-      playerState.stop(); // Stop current playback
       playerState.setTrack(metadata);
       playerState.play();
     }
@@ -31,21 +32,21 @@
 </script>
 
 <div
-  class="relative h-64 w-64 rounded-sm border-zinc-700 border overflow-hidden"
-  on:mouseenter={() => (paused = false)}
-  on:mouseleave={() => (paused = true)}>
+  class="relative w-64 aspect-square overflow-hidden rounded-sm border border-zinc-700"
+  on:mouseenter={() => (marqueePaused = false)}
+  on:mouseleave={() => (marqueePaused = true)}>
   <div
     class="absolute inset-0 bg-cover bg-center"
     style="background-image: url({metadata.artwork_url});" />
   <div class="absolute inset-0 bg-black opacity-25" />
-  <div class="absolute bottom-0 left-0 max-w-full p-4 text-left">
+  <div class="absolute bottom-0 left-0 max-w-full p-4">
     <div
-      class="whitespace-nowrap"
+      class="overflow-hidden whitespace-nowrap"
       style="mask-image: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(0,0,0,1) 90%, rgba(0,0,0,0) 100%);">
       {#if shouldMarquee}
         <!-- calculate the duration better later -->
         <Marquee
-          {paused}
+          paused={marqueePaused}
           resetOnPause
           duration={metadata.title.length / Math.max(metadata.title.length / 10, 1)}>
           <h3 id="title" class="mb-1 mr-4 text-xl font-bold text-white">
