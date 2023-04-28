@@ -20,4 +20,5 @@ interface AudioStore {
   isPlaying: boolean;
   currentTime: number;
   duration: number;
+  volume: number;
 }

@@ -7,6 +7,7 @@ const createPlayerState = () => {
     isPlaying: false,
     currentTime: 0,
     duration: 0,
+    volume: 0.5,
   });
 
   return {
@@ -14,6 +15,7 @@ const createPlayerState = () => {
     play: () => update((state) => ({ ...state, isPlaying: true })),
     setTrack: (metadata: Database["public"]["Tables"]["mixes"]["Row"]) =>
       update((state) => ({ ...state, currentTrack: metadata })),
+    setVolume: (newVolume: number) => update((state) => ({ ...state, volume: newVolume })),
     pause: () => update((state) => ({ ...state, isPlaying: false })),
     seek: (newTime: number) => update((state) => ({ ...state, currentTime: newTime })),
     stop: () => update((state) => ({ ...state, isPlaying: false, currentTime: 0 })),
@@ -23,6 +25,7 @@ const createPlayerState = () => {
         isPlaying: false,
         currentTime: 0,
         duration: 0,
+        volume: 0.5,
       }),
   };
 };

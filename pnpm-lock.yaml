@@ -1,5 +1,13 @@
 lockfileVersion: '6.0'
 
+dependencies:
+  '@fontsource/figtree':
+    specifier: ^4.5.3
+    version: 4.5.3
+  '@fontsource/hanken-grotesk':
+    specifier: ^4.5.2
+    version: 4.5.2
+
 devDependencies:
   '@iconify/json':
     specifier: 2.2.56
@@ -64,6 +72,9 @@ devDependencies:
   svelte-preprocess:
     specifier: 5.0.3
     version: 5.0.3(postcss-load-config@4.0.1)(postcss@8.4.23)(svelte@3.58.0)(typescript@5.0.4)
+  svelte-range-slider-pips:
+    specifier: ^2.1.1
+    version: 2.1.1
   tailwindcss:
     specifier: 3.3.2
     version: 3.3.2
@@ -332,6 +343,14 @@ packages:
     resolution: {integrity: sha512-kf9RB0Fg7NZfap83B3QOqOGg9QmD9yBudqQXzzOtn3i4y7ZUXe5ONeW34Gwi+TxhH4mvj72R1Zc300KUMa9Bng==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dev: true
+
+  /@fontsource/figtree@4.5.3:
+    resolution: {integrity: sha512-e/8bpoOhWfYq6hk5RNUHwBAjTXTCA13+caQOhImzD8TN6RG0VdpqMavKQiH350WBBBjwOJdBrCZZdpHHRONobQ==}
+    dev: false
+
+  /@fontsource/hanken-grotesk@4.5.2:
+    resolution: {integrity: sha512-1pe6B4LByvRd5jG+C95zEVo0MdOT8tsz/Vn8NsCtCXaw615AV2Y3J+EmNc/l80CESOc+m0apPhM4/gVyCBGMLg==}
+    dev: false
 
   /@humanwhocodes/config-array@0.11.8:
     resolution: {integrity: sha512-UybHIJzJnR5Qc/MsD9Kr+RpO2h+/P1GhOwdiLPXK5TWk5sgTdu88bTD9UP+CKbPPh5Rni1u0GjAdYQLemG8g+g==}
@@ -2353,6 +2372,10 @@ packages:
       strip-indent: 3.0.0
       svelte: 3.58.0
       typescript: 5.0.4
+    dev: true
+
+  /svelte-range-slider-pips@2.1.1:
+    resolution: {integrity: sha512-fLkhfnyEc4uMOCZCl8IPyC0e9lujrjqdSyrKw28Y8j99YUPZR+pHnSxde7PqhM0ST6eyO4ugh2nFnLZTIoG9aQ==}
     dev: true
 
   /svelte@3.58.0:

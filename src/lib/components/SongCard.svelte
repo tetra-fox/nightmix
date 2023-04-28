@@ -31,7 +31,7 @@
 </script>
 
 <div
-  class="relative h-64 w-64"
+  class="relative h-64 w-64 rounded-sm border-zinc-700 border overflow-hidden"
   on:mouseenter={() => (paused = false)}
   on:mouseleave={() => (paused = true)}>
   <div
@@ -40,11 +40,14 @@
   <div class="absolute inset-0 bg-black opacity-25" />
   <div class="absolute bottom-0 left-0 max-w-full p-4 text-left">
     <div
-      class="overflow-hidden whitespace-nowrap"
+      class="whitespace-nowrap"
       style="mask-image: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(0,0,0,1) 90%, rgba(0,0,0,0) 100%);">
       {#if shouldMarquee}
         <!-- calculate the duration better later -->
-        <Marquee {paused} resetOnPause duration={metadata.title.length / Math.max(metadata.title.length / 10, 1)}>
+        <Marquee
+          {paused}
+          resetOnPause
+          duration={metadata.title.length / Math.max(metadata.title.length / 10, 1)}>
           <h3 id="title" class="mb-1 mr-4 text-xl font-bold text-white">
             {metadata.title}
           </h3>
@@ -60,8 +63,7 @@
   <div
     class="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-75 hover:opacity-100">
     <button
-      style="z-index: 1;"
-      class="rounded-full bg-violet-600 p-3 text-white shadow-lg transition-colors duration-75 active:bg-violet-800 active:shadow-xl"
+      class="z-10 rounded-full bg-violet-600 p-3 text-white shadow-lg transition-colors duration-75 active:bg-violet-800 active:shadow-xl"
       on:click={handlePlayPause}>
       {#if $playerState.isPlaying && $playerState.currentTrack?.id === metadata.id}
         <MaterialSymbolsPauseRounded class="h-6 w-6" />
