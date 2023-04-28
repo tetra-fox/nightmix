@@ -37,7 +37,7 @@
       console.log($playerStore);
     }
   }
-  const btnClass = "w-6 h-12 text-xl flex justify-center items-center";
+  const btnClass = "w-6 text-xl flex justify-center items-center";
 </script>
 
 <audio
@@ -50,11 +50,11 @@
   {/if}
 </audio>
 
-<div class="fixed bottom-0 left-0 z-50 h-12 w-screen border-t border-t-zinc-600 bg-zinc-800">
-  <div class="mx-auto flex h-full max-w-screen-xl gap-4">
+<div class="fixed bottom-0 left-0 z-50 h-14 w-screen border-t border-t-zinc-600 bg-zinc-800">
+  <div class="mx-auto flex h-full max-w-screen-xl gap-4 justify-between">
     <div class="flex items-center justify-center gap-2">
       <div
-        class="h-10 w-10 bg-cover bg-center border rounded-sm border-zinc-700"
+        class="h-11 w-11 bg-cover bg-center border rounded-sm border-zinc-700"
         style="background-image: url({'/test.png' || ''})" />
       <div class="flex flex-col items-center justify-center">
         <p class="text-sm font-bold">{"" || "Title"}</p>
@@ -76,7 +76,7 @@
       </button>
       <input type="range" name="seekbar" id="seekbar" value="0" />
       <button
-        class={btnClass + " border-x-2"}
+        class={btnClass + " bg-white bg-opacity-10 p-4 rounded-md"}
         on:click={() => (showVolumeSlider = !showVolumeSlider)}
         ><MaterialSymbolsVolumeUpRounded /></button>
       {#if showVolumeSlider}
