@@ -43,7 +43,8 @@
       class="overflow-hidden whitespace-nowrap"
       style="mask-image: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(0,0,0,1) 90%, rgba(0,0,0,0) 100%);">
       {#if shouldMarquee}
-        <Marquee {paused} resetOnPause>
+        <!-- calculate the duration better later -->
+        <Marquee {paused} resetOnPause duration={metadata.title.length / Math.max(metadata.title.length / 10, 1)}>
           <h3 id="title" class="mb-1 mr-4 text-xl font-bold text-white">
             {metadata.title}
           </h3>
