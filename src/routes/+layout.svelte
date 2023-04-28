@@ -5,6 +5,13 @@
   import Header from "$lib/components/Header.svelte";
   import GlobalPlayer from "$lib/components/GlobalPlayer.svelte";
   import { playerState } from "$lib/store";
+
+  import { onMount } from "svelte";
+
+  onMount(() => {
+    const html = document.documentElement;
+    html && html.classList.add("dark") && html.classList.add("transition-color");
+  });
 </script>
 
 <ProgressBar color="#a979f2" zIndex={1000} />

@@ -8,6 +8,7 @@ const createPlayerState = () => {
     currentTime: 0,
     duration: 0,
     volume: 0.75,
+    queue: [],
   });
 
   return {
@@ -19,6 +20,13 @@ const createPlayerState = () => {
     setVolume: (newVolume: number) => update((state) => ({ ...state, volume: newVolume })),
     setDuration: (newDuration: number) => update((state) => ({ ...state, duration: newDuration })),
     pause: () => update((state) => ({ ...state, isPlaying: false })),
+    queueNext(track: Database["public"]["Tables"]["mixes"]["Row"]) {
+      update((state) => ({ ...state, queue: [...state.queue, track] }));
+    },
+    queueLast(track: Database["public"]["Tables"]["mixes"]["Row"]) {
+      update((state) => ({ ...state, queue: [track, ...state.queue] }));
+    },
+    toggleTransport: () => update((state) => ({ ...state, isPlaying: !state.isPlaying })),
     seek: (newTime: number) => update((state) => ({ ...state, currentTime: newTime })),
     reset: () =>
       set({
@@ -27,6 +35,7 @@ const createPlayerState = () => {
         currentTime: 0,
         duration: 0,
         volume: 0.75,
+        queue: [],
       }),
   };
 };

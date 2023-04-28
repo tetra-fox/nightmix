@@ -19,10 +19,8 @@
     if ($playerState.currentTrack && $playerState.currentTrack.id === metadata.id) {
       if (!$playerState.isPlaying) {
         playerState.play();
-        console.log("play called, same track");
       } else {
         playerState.pause();
-        console.log("pause called, same track");
       }
     } else {
       playerState.setTrack(metadata);

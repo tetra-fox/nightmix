@@ -21,4 +21,5 @@ interface AudioStore {
   currentTime: number;
   duration: number;
   volume: number;
+  queue: Database["public"]["Tables"]["mixes"]["Row"][];
 }

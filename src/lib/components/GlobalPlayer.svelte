@@ -1,5 +1,8 @@
 <script lang="ts">
   import { onMount, onDestroy } from "svelte";
+  import { dev } from "$app/environment";
+  import { tooltip } from "svooltip";
+  import "svooltip/styles.css";
   import { formatMilliseconds, getTimestampByMs } from "$lib/utils";
   import MaterialSymbolsSkipPreviousRounded from "~icons/material-symbols/skip-previous-rounded";
   import MaterialSymbolsSkipNextRounded from "~icons/material-symbols/skip-next-rounded";
@@ -21,10 +24,9 @@
   $: {
     if (audio) {
       if ($playerStore.isPlaying) {
-        audio.play().then(() => console.debug("player playing"));
+        audio.play();
       } else {
         audio.pause();
-        console.debug("player paused");
       }
       audio.volume = $playerStore.volume;
     }
@@ -33,7 +35,7 @@
   $: {
     if (audio && $playerStore.currentTrack !== currentTrack) {
       currentTrack = $playerStore.currentTrack;
-      console.debug("new track, loading audio");
+      if (dev) console.debug("loading track", $playerStore.currentTrack);
       audio.load();
     }
   }
@@ -61,10 +63,36 @@
     localStorage.setItem("playerState", JSON.stringify($playerStore));
   };
 
+  const handleKeydown = ({
+    key,
+    ctrlKey,
+    repeat,
+  }: {
+    key: string;
+    ctrlKey: any;
+    repeat: boolean;
+  }) => {
+    if (repeat) return;
+
+    switch (key) {
+      case " ":
+        playerStore.toggleTransport();
+        break;
+      case "ArrowLeft":
+        playerStore.seek($playerStore.currentTime - 5);
+        audio.currentTime = $playerStore.currentTime;
+        break;
+      case "ArrowRight":
+        playerStore.seek($playerStore.currentTime + 5);
+        audio.currentTime = $playerStore.currentTime;
+        break;
+    }
+  };
+
   let rangeClass = "";
 </script>
 
-<svelte:window on:beforeunload={handleBeforeUnload} />
+<svelte:window on:beforeunload={handleBeforeUnload} on:keydown={handleKeydown} />
 
 <audio
   bind:this={audio}
@@ -72,7 +100,8 @@
   on:loadedmetadata={() => {
     playerStore.setDuration(audio.duration);
   }}
-  preload="metadata">
+  controls
+  class="fixed bottom-16 left-2">
   {#if $playerStore.currentTrack}
     <source src={$playerStore.currentTrack.audio_url} />
   {/if}
@@ -81,11 +110,15 @@
 <div class="fixed bottom-0 left-0 z-50 h-14 w-screen border-t border-t-zinc-600 bg-zinc-800">
   <div class="mx-auto flex h-full max-w-screen-xl justify-between gap-4">
     <div class="flex items-center justify-center gap-2">
+      <a href={$playerStore.currentTrack
+        ? `/${$playerStore.currentTrack.artists.username}/${$playerStore.currentTrack.slug}`
+        : ""}>
       <div
         class="h-11 w-11 rounded-sm border border-zinc-700 bg-cover bg-center"
         style="background-image: url({$playerStore.currentTrack
           ? $playerStore.currentTrack.artwork_url
           : ''})" />
+          </a>
       <div class="flex flex-col justify-center">
         <a
           href={$playerStore.currentTrack
@@ -102,7 +135,9 @@
     </div>
 
     <div class="flex items-center justify-center gap-4">
-      <button class={btnClass}>
+      <button
+        class={btnClass}
+        >
         <MaterialSymbolsSkipPreviousRounded />
       </button>
       {#if $playerStore.isPlaying}
@@ -123,7 +158,7 @@
           </div>
         {/if}
         <div class="flex gap-4 items-center justify-center">
-          <p class="text-[0.65rem]">
+          <p class="text-[0.65rem] select-none">
             {$playerStore.currentTime
               ? formatMilliseconds($playerStore.currentTime * 1000)
               : "0:00"}
@@ -141,7 +176,7 @@
             on:input={() => {
               audio.currentTime = $playerStore.currentTime;
             }} />
-          <p class="text-[0.65rem]">
+          <p class="text-[0.65rem] select-none">
             {$playerStore.duration ? formatMilliseconds($playerStore.duration * 1000) : "0:00"}
           </p>
         </div>
@@ -185,39 +220,39 @@
 </div>
 
 <style>
-.range {
-  appearance: none;
-  height: 2px;
-  background-color: var(--color-zinc-500);
-  cursor: pointer;
-}
+  .range {
+    appearance: none;
+    height: 2px;
+    background-color: var(--color-zinc-500);
+    cursor: pointer;
+  }
 
-/* Webkit styles */
-.range::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  width: 16px;
-  height: 16px;
-  border-radius: 9999px;
-  border: 4px solid inside var(--color-zinc-300);
-  background-color: var(--color-zinc-600);
-}
+  /* Webkit styles */
+  .range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 9999px;
+    border: 4px solid inside var(--color-zinc-300);
+    background-color: var(--color-zinc-600);
+  }
 
-.range::-webkit-slider-runnable-track {
-  height: 2px;
-  background-color: var(--color-purple-500);
-}
+  .range::-webkit-slider-runnable-track {
+    height: 2px;
+    background-color: var(--color-purple-500);
+  }
 
-/* Firefox styles */
-.range::-moz-range-thumb {
-  width: 8px;
-  height: 8px;
-  border-radius: 9999px;
-  border: 4px solid var(--color-zinc-300);
-  background-color: var(--color-zinc-600);
-}
+  /* Firefox styles */
+  .range::-moz-range-thumb {
+    width: 8px;
+    height: 8px;
+    border-radius: 9999px;
+    border: 4px solid var(--color-zinc-300);
+    background-color: var(--color-zinc-600);
+  }
 
-.range::-moz-range-progress {
-  height: 2px;
-  background-color: var(--color-purple-500);
-}
+  .range::-moz-range-progress {
+    height: 2px;
+    background-color: var(--color-purple-500);
+  }
 </style>
