@@ -24,7 +24,6 @@ export const load: PageServerLoad = (async ({ params, url, locals }) => {
     .eq("artists.username", username)
     .single();
 
-  console.log(mix);
   return {
     mix: mix ?? [],
   };

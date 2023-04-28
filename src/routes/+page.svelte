@@ -1,8 +1,5 @@
 <script lang="ts">
-  import "@vime/core/themes/default.css";
-  import "@vime/core/themes/light.css";
   import { page } from "$app/stores";
-  import { Player, Ui, DefaultUi, Video, Audio, Youtube } from "@vime/svelte";
   import GlobalPlayer from "$lib/components/GlobalPlayer.svelte";
   import SongCard from "$lib/components/SongCard.svelte";
 </script>
