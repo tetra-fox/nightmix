@@ -19,10 +19,10 @@
     if ($playerState.currentTrack && $playerState.currentTrack.id === metadata.id) {
       if (!$playerState.isPlaying) {
         playerState.play();
-        console.log("play called, same track")
+        console.log("play called, same track");
       } else {
         playerState.pause();
-        console.log("pause called, same track")
+        console.log("pause called, same track");
       }
     } else {
       playerState.setTrack(metadata);
@@ -32,7 +32,7 @@
 </script>
 
 <div
-  class="relative w-64 aspect-square overflow-hidden rounded-sm border border-zinc-700"
+  class="relative aspect-square w-64 overflow-hidden rounded-sm border border-zinc-700"
   on:mouseenter={() => (marqueePaused = false)}
   on:mouseleave={() => (marqueePaused = true)}>
   <div

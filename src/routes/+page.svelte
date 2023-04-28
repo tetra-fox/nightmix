@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { onMount, onDestroy } from "svelte";
+
   import { page } from "$app/stores";
   import GlobalPlayer from "$lib/components/GlobalPlayer.svelte";
   import SongCard from "$lib/components/SongCard.svelte";

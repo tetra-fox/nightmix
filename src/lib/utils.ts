@@ -27,3 +27,12 @@ const padZero = (num: number): string => {
 };
 
 export const pathnameSplit = (pathname: string) => pathname.slice(1).split("/");
+
+export const getTimestampByMs = (timestamps, timestamp_ms) => {
+  return timestamps.reduce((prev, current) => {
+    if (current.timestamp_ms <= timestamp_ms && current.timestamp_ms > prev.timestamp_ms) {
+      return current;
+    }
+    return prev;
+  }, timestamps[0]);
+};

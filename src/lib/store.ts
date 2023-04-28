@@ -12,6 +12,7 @@ const createPlayerState = () => {
 
   return {
     subscribe,
+    set,
     play: () => update((state) => ({ ...state, isPlaying: true })),
     setTrack: (metadata: Database["public"]["Tables"]["mixes"]["Row"]) =>
       update((state) => ({ ...state, currentTrack: metadata })),
