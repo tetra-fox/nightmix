@@ -61,7 +61,7 @@
     class="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-75 hover:opacity-100">
     <button
       style="z-index: 1;"
-      class="rounded-full bg-violet-600 p-3 text-white shadow-lg"
+      class="rounded-full bg-violet-600 p-3 text-white shadow-lg transition-colors duration-75 active:bg-violet-800 active:shadow-xl"
       on:click={handlePlayPause}>
       {#if $playerState.isPlaying && $playerState.currentTrack?.id === metadata.id}
         <MaterialSymbolsPauseRounded class="h-6 w-6" />
