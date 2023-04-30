@@ -33,14 +33,18 @@
   class="relative aspect-square w-64 overflow-hidden rounded-sm border border-zinc-700"
   on:mouseenter={() => (marqueePaused = false)}
   on:mouseleave={() => (marqueePaused = true)}>
+  <!-- artwork -->
   <div
     class="absolute inset-0 bg-cover bg-center"
     style="background-image: url({metadata.artwork_url});" />
+    <!-- dim -->
   <div class="absolute inset-0 bg-black opacity-25" />
+  <!-- metadata -->
   <div class="absolute bottom-0 left-0 max-w-full p-4">
     <div
       class="overflow-hidden whitespace-nowrap"
       style="mask-image: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(0,0,0,1) 90%, rgba(0,0,0,0) 100%);">
+      <!-- title -->
       {#if shouldMarquee}
         <!-- calculate the duration better later -->
         <Marquee
@@ -56,9 +60,11 @@
           <h3 id="title">{metadata.title}</h3>
         </div>
       {/if}
+      <!-- artist -->
       <p class="mt-0 text-sm text-white">{metadata.artists.name}</p>
     </div>
   </div>
+  <!-- play button -->
   <div
     class="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-75 hover:opacity-100">
     <button
@@ -70,6 +76,7 @@
         <MaterialSymbolsPlayArrowRounded class="h-6 w-6" />
       {/if}
     </button>
+    <!-- link -->
     <a class="absolute inset-0" href="/{metadata.artists.username}/{metadata.slug}" />
   </div>
 </div>

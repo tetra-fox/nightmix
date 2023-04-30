@@ -107,19 +107,26 @@
   {/if}
 </audio>
 
+<!-- root container -->
 <div class="fixed bottom-0 left-0 z-50 h-14 w-screen border-t border-t-zinc-600 bg-zinc-800">
+  <!-- flex metadata/controls -->
   <div class="mx-auto flex h-full max-w-screen-xl justify-between gap-4">
+    <!-- metadata -->
     <div class="flex items-center justify-center gap-2">
-      <a href={$playerStore.currentTrack
-        ? `/${$playerStore.currentTrack.artists.username}/${$playerStore.currentTrack.slug}`
-        : ""}>
-      <div
-        class="h-11 w-11 rounded-sm border border-zinc-700 bg-cover bg-center"
-        style="background-image: url({$playerStore.currentTrack
-          ? $playerStore.currentTrack.artwork_url
-          : ''})" />
-          </a>
+      <!-- artwork -->
+      <a
+        href={$playerStore.currentTrack
+          ? `/${$playerStore.currentTrack.artists.username}/${$playerStore.currentTrack.slug}`
+          : ""}>
+        <div
+          class="h-11 w-11 rounded-sm border border-zinc-700 bg-cover bg-center"
+          style="background-image: url({$playerStore.currentTrack
+            ? $playerStore.currentTrack.artwork_url
+            : ''})" />
+      </a>
+      <!-- metadata flex -->
       <div class="flex flex-col justify-center">
+        <!-- metadata title -->
         <a
           href={$playerStore.currentTrack
             ? `/${$playerStore.currentTrack.artists.username}/${$playerStore.currentTrack.slug}`
@@ -127,6 +134,7 @@
           ><p class="text-sm font-bold">
             {$playerStore.currentTrack ? $playerStore.currentTrack.title : ""}
           </p></a>
+        <!-- metadata artist -->
         <a href={$playerStore.currentTrack ? `/${$playerStore.currentTrack.artists.username}` : ""}
           ><p class="text-xs text-gray-300">
             {$playerStore.currentTrack ? $playerStore.currentTrack.artists.name : ""}
@@ -134,12 +142,13 @@
       </div>
     </div>
 
+    <!-- controls -->
     <div class="flex items-center justify-center gap-4">
-      <button
-        class={btnClass}
-        >
+      <!-- previous -->
+      <button class={btnClass}>
         <MaterialSymbolsSkipPreviousRounded />
       </button>
+      <!-- play/pause -->
       {#if $playerStore.isPlaying}
         <button class={btnClass} on:click={playerStore.pause}
           ><MaterialSymbolsPauseRounded /></button>
@@ -147,22 +156,27 @@
         <button class={btnClass} on:click={playerStore.play}
           ><MaterialSymbolsPlayArrowRounded /></button>
       {/if}
+      <!-- next -->
       <button class={btnClass}>
         <MaterialSymbolsSkipNextRounded />
       </button>
 
+      <!-- seekbar/current song container -->
       <div class="flex flex-col items-center">
+        <!-- current song -->
         {#if currentTimestamp}
           <div class="text-[0.65rem]">
             <span>{currentTimestamp.artist} - {currentTimestamp.title}</span>
           </div>
         {/if}
+        <!-- track time -->
         <div class="flex gap-4 items-center justify-center">
           <p class="text-[0.65rem] select-none">
             {$playerStore.currentTime
               ? formatMilliseconds($playerStore.currentTime * 1000)
               : "0:00"}
           </p>
+          <!-- seekbar -->
           <input
             type="range"
             min="0"
@@ -176,17 +190,20 @@
             on:input={() => {
               audio.currentTime = $playerStore.currentTime;
             }} />
+          <!-- track duration -->
           <p class="text-[0.65rem] select-none">
             {$playerStore.duration ? formatMilliseconds($playerStore.duration * 1000) : "0:00"}
           </p>
         </div>
       </div>
 
+      <!-- volume toggle -->
       <button
         class={btnClass + " rounded-md bg-white bg-opacity-10"}
         on:click={() => (showVolumeSlider = !showVolumeSlider)}
         ><MaterialSymbolsVolumeUpRounded /></button>
 
+      <!-- volume slider container -->
       <div
         class="max-w-2 fixed flex origin-left -translate-y-10 translate-x-80 -rotate-90 border border-t-zinc-600 bg-zinc-800 p-4 opacity-0 transition-opacity duration-75"
         class:opacity-100={showVolumeSlider}
@@ -198,6 +215,7 @@
             shouldDismissVolumePopup = false;
           }
         }}>
+        <!-- volume slider -->
         <input
           type="range"
           name="volume"
