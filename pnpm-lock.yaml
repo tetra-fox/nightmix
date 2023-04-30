@@ -2,28 +2,16 @@ lockfileVersion: '6.0'
 
 dependencies:
   '@fontsource/figtree':
-    specifier: ^4.5.3
+    specifier: 4.5.3
     version: 4.5.3
-  '@fontsource/hanken-grotesk':
-    specifier: ^4.5.2
-    version: 4.5.2
-  '@popperjs/core':
-    specifier: ^2.11.7
-    version: 2.11.7
   classnames:
-    specifier: ^2.3.2
+    specifier: 2.3.2
     version: 2.3.2
-  flowbite:
-    specifier: ^1.6.5
-    version: 1.6.5
-  flowbite-svelte:
-    specifier: ^0.34.9
-    version: 0.34.9(@popperjs/core@2.11.7)(classnames@2.3.2)(flowbite@1.6.5)(svelte@3.58.0)
   svelte-file-dropzone:
-    specifier: ^2.0.1
+    specifier: 2.0.1
     version: 2.0.1(svelte@3.58.0)
   svooltip:
-    specifier: ^0.7.4
+    specifier: 0.7.4
     version: 0.7.4
 
 devDependencies:
@@ -49,13 +37,13 @@ devDependencies:
     specifier: 5.59.1
     version: 5.59.1(eslint@8.39.0)(typescript@5.0.4)
   '@vavite/node-loader':
-    specifier: ^1.7.0
+    specifier: 1.7.0
     version: 1.7.0(vite@4.3.3)
   autoprefixer:
     specifier: 10.4.14
     version: 10.4.14(postcss@8.4.23)
   dotenv:
-    specifier: ^16.0.3
+    specifier: 16.0.3
     version: 16.0.3
   eslint:
     specifier: 8.39.0
@@ -93,9 +81,6 @@ devDependencies:
   svelte-preprocess:
     specifier: 5.0.3
     version: 5.0.3(postcss-load-config@4.0.1)(postcss@8.4.23)(svelte@3.58.0)(typescript@5.0.4)
-  svelte-range-slider-pips:
-    specifier: ^2.1.1
-    version: 2.1.1
   tailwindcss:
     specifier: 3.3.2
     version: 3.3.2
@@ -379,10 +364,6 @@ packages:
     resolution: {integrity: sha512-e/8bpoOhWfYq6hk5RNUHwBAjTXTCA13+caQOhImzD8TN6RG0VdpqMavKQiH350WBBBjwOJdBrCZZdpHHRONobQ==}
     dev: false
 
-  /@fontsource/hanken-grotesk@4.5.2:
-    resolution: {integrity: sha512-1pe6B4LByvRd5jG+C95zEVo0MdOT8tsz/Vn8NsCtCXaw615AV2Y3J+EmNc/l80CESOc+m0apPhM4/gVyCBGMLg==}
-    dev: false
-
   /@humanwhocodes/config-array@0.11.8:
     resolution: {integrity: sha512-UybHIJzJnR5Qc/MsD9Kr+RpO2h+/P1GhOwdiLPXK5TWk5sgTdu88bTD9UP+CKbPPh5Rni1u0GjAdYQLemG8g+g==}
     engines: {node: '>=10.10.0'}
@@ -485,10 +466,6 @@ packages:
   /@polka/url@1.0.0-next.21:
     resolution: {integrity: sha512-a5Sab1C4/icpTZVzZc5Ghpz88yQtGOyNqYXcZgOssB2uuAr+wF/MvN6bgtW32q7HHrvBki+BsZ0OuNv6EV3K9g==}
     dev: true
-
-  /@popperjs/core@2.11.7:
-    resolution: {integrity: sha512-Cr4OjIkipTtcXKjAsm8agyleBuDHvxzeBoa1v543lbv1YaIwQjESsVcmjiWiPEbC1FIeHOG/Op9kdCmAmiS3Kw==}
-    dev: false
 
   /@prgm/sveltekit-progress-bar@1.0.0(@sveltejs/kit@1.15.9):
     resolution: {integrity: sha512-E32QXXaeaWt8S3m/jPV+c/k3Jun2+CFtonvg66gm1izEJ3dx1xAJkxfNJdZQWcv9Jy75zSiB8jpEfOxnsxOKzw==}
@@ -1401,28 +1378,6 @@ packages:
     resolution: {integrity: sha512-5nqDSxl8nn5BSNxyR3n4I6eDmbolI6WT+QqR547RwxQapgjQBmtktdP+HTBb/a/zLsbzERTONyUB5pefh5TtjQ==}
     dev: true
 
-  /flowbite-svelte@0.34.9(@popperjs/core@2.11.7)(classnames@2.3.2)(flowbite@1.6.5)(svelte@3.58.0):
-    resolution: {integrity: sha512-HtDpkYYWyQ6oLYn0ramv6euWiq6wtDizPxcbcM2ytvepHZ2aNMsekNstzBv2R3K4jOJv3lYwrndQzeqC1aP0PQ==}
-    engines: {node: '>=16.0.0', npm: '>=7.0.0'}
-    peerDependencies:
-      '@popperjs/core': ^2.11.6
-      classnames: ^2.3.2
-      flowbite: ^1.6.3
-      svelte: ^3.55.1
-    dependencies:
-      '@popperjs/core': 2.11.7
-      classnames: 2.3.2
-      flowbite: 1.6.5
-      svelte: 3.58.0
-    dev: false
-
-  /flowbite@1.6.5:
-    resolution: {integrity: sha512-eI4h3pIRI9d7grlYq14r0A01KUtw7189sPLLx/O2i7JyPEWpbleScfYuEc48XTeNjk1xxm/JHgZkD9kjyOWAlA==}
-    dependencies:
-      '@popperjs/core': 2.11.7
-      mini-svg-data-uri: 1.4.4
-    dev: false
-
   /formdata-polyfill@4.0.10:
     resolution: {integrity: sha512-buewHzMvYL29jdeQTVILecSaZKnt/RJWjoZCF5OW60Z67/GmSLBkOFM7qh1PI3zFNtJbaZL5eQu1vLfazOwj4g==}
     engines: {node: '>=12.20.0'}
@@ -1750,11 +1705,6 @@ packages:
     resolution: {integrity: sha512-I9jwMn07Sy/IwOj3zVkVik2JTvgpaykDZEigL6Rx6N9LbMywwUSMtxET+7lVoDLLd3O3IXwJwvuuns8UB/HeAg==}
     engines: {node: '>=4'}
     dev: true
-
-  /mini-svg-data-uri@1.4.4:
-    resolution: {integrity: sha512-r9deDe9p5FJUPZAk3A59wGH7Ii9YrjjWw0jmw/liSbHl2CHiyXj6FcDXDu2K3TjVAXqiJdaw3xxwlZZr9E6nHg==}
-    hasBin: true
-    dev: false
 
   /minimatch@3.1.2:
     resolution: {integrity: sha512-J7p63hRiAjw1NDEww1W7i37+ByIrOWO5XQQAzZ3VOcL0PNybwpfmV/N05zFAzwQ9USyEcX6t3UO+K5aqBQOIHw==}
@@ -2456,10 +2406,6 @@ packages:
       strip-indent: 3.0.0
       svelte: 3.58.0
       typescript: 5.0.4
-    dev: true
-
-  /svelte-range-slider-pips@2.1.1:
-    resolution: {integrity: sha512-fLkhfnyEc4uMOCZCl8IPyC0e9lujrjqdSyrKw28Y8j99YUPZR+pHnSxde7PqhM0ST6eyO4ugh2nFnLZTIoG9aQ==}
     dev: true
 
   /svelte@3.58.0:
