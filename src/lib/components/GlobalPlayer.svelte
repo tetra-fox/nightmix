@@ -125,7 +125,7 @@
   on:loadedmetadata={() => {
     playerStore.setDuration(audio.duration);
   }}
-  controls
+  controls={dev}
   class="fixed bottom-16 left-2">
   {#if $playerStore.currentTrack}
     <source src={$playerStore.currentTrack.audio_url} />
