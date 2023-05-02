@@ -53,4 +53,3 @@ export async function getPublicUrls(data: any[], urlKeys: string[]): Promise<any
 
   return data;
 }
-

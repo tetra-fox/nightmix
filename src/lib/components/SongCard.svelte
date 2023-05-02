@@ -4,7 +4,7 @@
   import MaterialSymbolsPauseRounded from "~icons/material-symbols/pause-rounded";
   import Marquee from "./Marquee.svelte";
   import { onMount } from "svelte";
-  import { playerState } from "$lib/store";
+  import { playerState } from "$lib/stores";
 
   export let metadata: Database["public"]["Tables"]["mixes"]["Row"];
 
@@ -37,7 +37,7 @@
   <div
     class="absolute inset-0 bg-cover bg-center"
     style="background-image: url({metadata.artwork_url});" />
-    <!-- dim -->
+  <!-- dim -->
   <div class="absolute inset-0 bg-black opacity-25" />
   <!-- metadata -->
   <div class="absolute bottom-0 left-0 max-w-full p-4">

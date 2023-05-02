@@ -3,42 +3,37 @@
   import { dev } from "$app/environment";
   import { tooltip } from "svooltip";
   import "svooltip/styles.css";
+  import Slider from "$lib/components/Slider.svelte";
   import { formatMilliseconds, getTimestampByMs } from "$lib/utils";
   import MaterialSymbolsSkipPreviousRounded from "~icons/material-symbols/skip-previous-rounded";
   import MaterialSymbolsSkipNextRounded from "~icons/material-symbols/skip-next-rounded";
   import MaterialSymbolsPlayArrowRounded from "~icons/material-symbols/play-arrow-rounded";
   import MaterialSymbolsPauseRounded from "~icons/material-symbols/pause-rounded";
   import MaterialSymbolsVolumeUpRounded from "~icons/material-symbols/volume-up-rounded";
+  import MaterialSymbolsRepeatRounded from "~icons/material-symbols/repeat-rounded";
+  import MaterialSymbolsRepeatOneRounded from "~icons/material-symbols/repeat-one-rounded";
+  import MaterialSymbolsKeyboardArrowUpRounded from "~icons/material-symbols/keyboard-arrow-up-rounded";
 
-  import type { playerState } from "$lib/store";
-  export let playerStore: typeof playerState;
+  import type { PlayerStore } from "$lib/stores";
+  export let playerStore: PlayerStore;
+  import { RepeatMode } from "$lib/enums/repeatmode";
 
   let audio: HTMLAudioElement;
-  let currentTrack: null = null;
+  let currentTrack: any = null;
   let shouldDismissVolumePopup = false;
   let showVolumeSlider = false;
-  let currentTimestamp = null;
+  let currentTimestamp: any = null;
 
-  const btnClass = "w-6 text-xl flex justify-center items-center";
-
-  $: {
-    if (audio) {
-      if ($playerStore.isPlaying) {
-        audio.play();
-      } else {
-        audio.pause();
-      }
-      audio.volume = $playerStore.volume;
+  onMount(() => {
+    const savedState = localStorage.getItem("player_state");
+    if (savedState) {
+      playerStore.set(JSON.parse(savedState));
+      playerStore.seek($playerStore.currentTime);
     }
-  }
-
-  $: {
-    if (audio && $playerStore.currentTrack !== currentTrack) {
-      currentTrack = $playerStore.currentTrack;
-      if (dev) console.debug("loading track", $playerStore.currentTrack);
-      audio.load();
-    }
-  }
+    playerStore.subscribe((value) => {
+      localStorage.setItem("player_state", JSON.stringify(value));
+    });
+  });
 
   const updateCurrentTime = () => {
     if (!audio) return;
@@ -47,20 +42,6 @@
       $playerStore.currentTrack.timestamps,
       $playerStore.currentTime * 1000
     );
-  };
-
-  onMount(() => {
-    const savedState = localStorage.getItem("playerState");
-    if (savedState) {
-      playerStore.set(JSON.parse(savedState));
-      playerStore.seek($playerStore.currentTime);
-    }
-  });
-
-  // save the store to local storage before the page is unloaded
-  const handleBeforeUnload = () => {
-    playerStore.pause();
-    localStorage.setItem("playerState", JSON.stringify($playerStore));
   };
 
   const handleKeydown = ({
@@ -89,10 +70,54 @@
     }
   };
 
-  let rangeClass = "";
+  $: {
+    if (audio && $playerStore.currentTrack) {
+      // play/pause
+      if ($playerStore.isPlaying) {
+        audio.play();
+      } else {
+        audio.pause();
+      }
+      // repeat mode
+      switch ($playerStore.currentTrack.repeat) {
+        case RepeatMode.None:
+          audio.loop = false;
+          break;
+        case RepeatMode.One:
+          audio.loop = true;
+          break;
+        case RepeatMode.All:
+          audio.loop = false;
+          // TODO: implement. We need the queue working first
+          break;
+      }
+      // volume change
+      audio.volume = $playerStore.volume;
+      // track change
+      if ($playerStore.currentTrack !== currentTrack) {
+        currentTrack = $playerStore.currentTrack;
+        if (dev) console.debug("loading track", $playerStore.currentTrack);
+        audio.load();
+      }
+    }
+  }
+
+  $: {
+    if (audio && $playerStore.currentTrack) {
+      // set audio time to store time (usually after refresh)
+      if ($playerStore.currentTime !== audio.currentTime && $playerStore.isPlaying) {
+        console.log("weed");
+        audio.currentTime = $playerStore.currentTime;
+      }
+    }
+  }
 </script>
 
-<svelte:window on:beforeunload={handleBeforeUnload} on:keydown={handleKeydown} />
+<svelte:window
+  on:beforeunload={() => {
+    playerStore.pause();
+  }}
+  on:keydown|preventDefault={handleKeydown} />
 
 <audio
   bind:this={audio}
@@ -131,37 +156,56 @@
           href={$playerStore.currentTrack
             ? `/${$playerStore.currentTrack.artists.username}/${$playerStore.currentTrack.slug}`
             : ""}
-          ><p class="text-sm font-bold">
+          ><p class="text-sm font-bold text-zinc-100">
             {$playerStore.currentTrack ? $playerStore.currentTrack.title : ""}
           </p></a>
         <!-- metadata artist -->
         <a href={$playerStore.currentTrack ? `/${$playerStore.currentTrack.artists.username}` : ""}
-          ><p class="text-xs text-gray-300">
+          ><p class="text-xs text-zinc-300">
             {$playerStore.currentTrack ? $playerStore.currentTrack.artists.name : ""}
           </p></a>
       </div>
     </div>
 
     <!-- controls -->
-    <div class="flex items-center justify-center gap-4">
+    <div class="flex items-center justify-center gap-2">
       <!-- previous -->
-      <button class={btnClass}>
+      <button
+        class="button force-dark"
+        use:tooltip={{
+          content: "Previous",
+          delay: [250, 0],
+        }}>
         <MaterialSymbolsSkipPreviousRounded />
       </button>
       <!-- play/pause -->
-      {#if $playerStore.isPlaying}
-        <button class={btnClass} on:click={playerStore.pause}
-          ><MaterialSymbolsPauseRounded /></button>
-      {:else}
-        <button class={btnClass} on:click={playerStore.play}
-          ><MaterialSymbolsPlayArrowRounded /></button>
-      {/if}
+
+      <button
+        class="button force-dark"
+        on:click={playerStore.toggleTransport}
+        use:tooltip={{
+          content: `${$playerStore.isPlaying ? "Pause" : "Play"}`,
+          delay: [250, 0],
+        }}
+        >{#if $playerStore.isPlaying}
+          <MaterialSymbolsPauseRounded />
+        {:else}
+          <MaterialSymbolsPlayArrowRounded />
+        {/if}
+      </button>
+
       <!-- next -->
-      <button class={btnClass}>
+      <button
+        class="button force-dark"
+        use:tooltip={{
+          content: "Next",
+          delay: [250, 0],
+        }}>
         <MaterialSymbolsSkipNextRounded />
       </button>
 
       <!-- seekbar/current song container -->
+
       <div class="flex flex-col items-center">
         <!-- current song -->
         {#if currentTimestamp}
@@ -170,8 +214,8 @@
           </div>
         {/if}
         <!-- track time -->
-        <div class="flex gap-4 items-center justify-center">
-          <p class="text-[0.65rem] select-none">
+        <div class="flex items-center justify-center gap-4">
+          <p class="select-none text-[0.65rem] text-zinc-100">
             {$playerStore.currentTime
               ? formatMilliseconds($playerStore.currentTime * 1000)
               : "0:00"}
@@ -190,17 +234,42 @@
             on:input={() => {
               audio.currentTime = $playerStore.currentTime;
             }} />
+          <!-- <Slider classes="w-96" /> -->
+          <!-- <Slider
+            min={0}
+            max={$playerStore.duration}
+            step={0.01}
+            bind:value={$playerStore.currentTime}
+            on:change={() => {
+              audio.currentTime = $playerStore.currentTime;
+            }}
+            on:input={() => {
+              audio.currentTime = $playerStore.currentTime;
+            }} /> -->
           <!-- track duration -->
-          <p class="text-[0.65rem] select-none">
+          <p class="select-none text-[0.65rem] text-zinc-100">
             {$playerStore.duration ? formatMilliseconds($playerStore.duration * 1000) : "0:00"}
           </p>
         </div>
       </div>
 
-      <!-- volume toggle -->
+      <!-- repeat button -->
       <button
-        class={btnClass + " rounded-md bg-white bg-opacity-10"}
-        on:click={() => (showVolumeSlider = !showVolumeSlider)}
+        class="button force-dark"
+        on:click={() => {
+          playerStore.cycleRepeatMode();
+        }}>
+        {#if $playerStore.repeat == RepeatMode.None}
+          <MaterialSymbolsPauseRounded />
+        {:else if $playerStore.repeat == RepeatMode.One}
+          <MaterialSymbolsRepeatRounded />
+        {:else if $playerStore.repeat == RepeatMode.All}
+          <MaterialSymbolsRepeatOneRounded />
+        {/if}
+      </button>
+
+      <!-- volume toggle -->
+      <button class="button bg" on:click={() => (showVolumeSlider = !showVolumeSlider)}
         ><MaterialSymbolsVolumeUpRounded /></button>
 
       <!-- volume slider container -->
@@ -245,7 +314,6 @@
     cursor: pointer;
   }
 
-  /* Webkit styles */
   .range::-webkit-slider-thumb {
     -webkit-appearance: none;
     width: 16px;
@@ -260,7 +328,6 @@
     background-color: var(--color-purple-500);
   }
 
-  /* Firefox styles */
   .range::-moz-range-thumb {
     width: 8px;
     height: 8px;
@@ -272,5 +339,13 @@
   .range::-moz-range-progress {
     height: 2px;
     background-color: var(--color-purple-500);
+  }
+
+  .button {
+    @apply flex h-8 w-8 items-center justify-center text-xl text-zinc-100;
+  }
+
+  .button.bg {
+    @apply rounded-md bg-white bg-opacity-10;
   }
 </style>
